@@ -12,7 +12,6 @@ test("Search: compare search result price with total amount in details @smoke", 
   await contractSearchPage.search();
 
   const contractPrice = await contractSearchPage.getContractPrice();
-  console.log("Contract price:", contractPrice);
 
   const newPage = await contractSearchPage.openQuotationDetails();
   const detailsPage = new ContractDetailsPage(newPage);
