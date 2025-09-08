@@ -3,18 +3,18 @@ import { Page, Locator } from "@playwright/test";
 export class ContractSearchPage {
   readonly page: Page;
   readonly hotelSelect: Locator;
-  readonly roomCategorySelect: Locator;
+  readonly roomCategoryDropdown: Locator;
   readonly searchButton: Locator;
-  readonly tableResponsive: Locator;
+  readonly resultTable: Locator;
   readonly contractPrice: Locator;
   readonly selectQuotationLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.hotelSelect = page.locator('select[name="hotel"]');
-    this.roomCategorySelect = page.locator('select[name="room_types[]"]');
+    this.roomCategoryDropdown = page.locator('select[name="room_types[]"]');
     this.searchButton = page.getByRole("button", { name: "Search" });
-    this.tableResponsive = page.locator(".table-responsive");
+    this.resultTable = page.locator(".table-responsive");
     this.contractPrice = page.locator(".contract-price");
     this.selectQuotationLink = page.getByRole("link", {
       name: "Select Quotation",
@@ -26,12 +26,12 @@ export class ContractSearchPage {
   }
 
   async selectRoomCategory(roomCategory: string) {
-    await this.roomCategorySelect.selectOption({ label: roomCategory });
+    await this.roomCategoryDropdown.selectOption({ label: roomCategory });
   }
 
   async search() {
     await this.searchButton.click();
-    await this.tableResponsive.waitFor({ state: "visible" });
+    await this.resultTable.waitFor({ state: "visible" });
   }
 
   async getContractPrice(): Promise<string> {

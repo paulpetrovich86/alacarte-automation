@@ -2,7 +2,7 @@ import { ContractDetailsPage } from "../../pages/contractDetailsPage";
 import { ContractSearchPage } from "../../pages/ContractSearchPage";
 import { test, expect } from "../fixtures";
 
-test("Search: compare search result price with total amount in details", async ({
+test("Search: compare search result price with total amount in details @smoke", async ({
   page,
 }) => {
   const contractSearchPage = new ContractSearchPage(page);
