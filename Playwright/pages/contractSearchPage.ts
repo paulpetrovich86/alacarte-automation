@@ -4,8 +4,6 @@ export class ContractSearchPage {
   readonly page: Page;
   readonly hotelSelect: Locator;
   readonly roomCategorySelect: Locator;
-  readonly roomTypeSelect: Locator;
-  readonly roomTypeSearchField: Locator;
   readonly searchButton: Locator;
   readonly tableResponsive: Locator;
   readonly contractPrice: Locator;
@@ -15,18 +13,12 @@ export class ContractSearchPage {
     this.page = page;
     this.hotelSelect = page.locator('select[name="hotel"]');
     this.roomCategorySelect = page.locator('select[name="room_types[]"]');
-    this.roomTypeSelect = page.locator(
-      'label:has-text("Room category") + div .select2-selection--multiple'
-    );
-    this.roomTypeSearchField = page.locator(
-      ".select2-container--open .select2-search__field"
-    );
     this.searchButton = page.getByRole("button", { name: "Search" });
     this.tableResponsive = page.locator(".table-responsive");
-    this.contractPrice = page.locator(".contract-price").first();
-    this.selectQuotationLink = page
-      .getByRole("link", { name: "Select Quotation" })
-      .first();
+    this.contractPrice = page.locator(".contract-price");
+    this.selectQuotationLink = page.getByRole("link", {
+      name: "Select Quotation",
+    });
   }
 
   async selectHotel(hotelName: string) {
