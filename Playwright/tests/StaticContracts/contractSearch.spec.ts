@@ -1,28 +1,22 @@
-import { test, expect } from '../fixtures';
+import { ContractDetailsPage } from "../../pages/contractDetailsPage";
+import { ContractSearchPage } from "../../pages/ContractSearchPage";
+import { test, expect } from "../fixtures";
 
-test('Search: compare search result price with total amount in details', async ({ page }) => {
+test("Search: compare search result price with total amount in details", async ({
+  page,
+}) => {
+  const contractSearchPage = new ContractSearchPage(page);
+  await contractSearchPage.selectHotel("ALINA TEST");
+  await contractSearchPage.selectRoomCategory("Water Villa");
 
-// Click the select box next to the "Hotel" label
-await page.locator('label:has-text("Hotel") + div .select2-selection--single').click();
-// ensure to pick the acctive search field
-await page.locator('.select2-container--open .select2-search__field').fill('Alina Test');
-//await page.locator('.select2-results__option', { hasText: 'ALINA TEST' }).click();
-await page.getByRole('option', { name: 'ALINA TEST' }).click();
-await page.getByRole('button', { name: 'Search' }).click();
-await expect(page.locator('.table-responsive')).toBeVisible();
-const contractPrice = await page.locator('.contract-price').first().innerText();
-console.log('Contract price:', contractPrice);
+  await contractSearchPage.search();
 
-const [newPage] = await Promise.all([
-  page.waitForEvent('popup'),
-  page.getByRole('link', { name: 'Select Quotation' }).first().click()
-]);
+  const contractPrice = await contractSearchPage.getContractPrice();
+  console.log("Contract price:", contractPrice);
 
-// Now you can interact with the new tab
-const totalAmount = await newPage.locator('tr.total >> td').nth(1).innerText();
-console.log('Total amount:', totalAmount);
+  const newPage = await contractSearchPage.openQuotationDetails();
+  const detailsPage = new ContractDetailsPage(newPage);
 
-
-// Compare contractPrice and totalAmount
-expect(contractPrice).toBe(totalAmount);
+  const totalAmount = await detailsPage.getTotalAmount();
+  expect(contractPrice).toBe(totalAmount);
 });
